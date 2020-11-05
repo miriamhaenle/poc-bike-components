@@ -1,15 +1,57 @@
 import { useState } from 'react'
 import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
-import AddNewBikeForm from '../components/AddNewBikeForm'
-import AddNewComponentForm from '../components/AddNewComponentForm'
+import AddForm from '../components/AddForm'
+import { toDomString } from '../services/dateService'
+import { createID } from '../services/idService'
 
 export default function BikeAndComponentsPage() {
   let { path } = useRouteMatch()
 
-  const [bikes, setBikes] = useState(['Pinarello', 'Canyon'])
+  const testState = [
+    {
+      id: 1,
+      name: 'Pinarello Dogma F8',
+      type: 'Road',
+      brand: 'Pinarello',
+      purchaseDate: '2018-11-01',
+      components: [
+        {
+          name: 'Campagnolo Super record EPS',
+          type: 'Groupset',
+          brand: 'campagnolo',
+          purchaseDate: toDomString(new Date()),
+          notificationDistance: 100,
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: 'Canxon Speedmax',
+      type: 'Road',
+      brand: 'Canyon',
+      purchaseDate: '2019-05-22',
+      components: [],
+    },
+  ]
 
-  function addNewBike(newBike) {
+  const [bikes, setBikes] = useState(testState)
+  const [newBike, setNewBike] = useState(getNewBike())
+
+  function addNewBike() {
     setBikes([...bikes, newBike])
+    setNewBike(getNewBike())
+    console.log(bikes)
+  }
+
+  function getNewBike() {
+    return {
+      id: createID(),
+      name: '',
+      type: '',
+      brand: '',
+      purchaseDate: toDomString(new Date()),
+      components: [],
+    }
   }
 
   return (
@@ -18,23 +60,23 @@ export default function BikeAndComponentsPage() {
       <p>Overview of your bikes and components</p>
 
       <section>
-        <div>
-          <h4>Pinarello F8</h4>
-          <ul>
-            Components:
-            <li>Campagnolo Super record EPS</li>
-            <li>Campagnolo Super 12 Speed Chain</li>
-            <li>Laufrad Fulcrum Racing 600 (front)</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Canyon Speedmax CF SL</h4>
-        </div>
-        <ul>
-          Components:
-          <li>Shimano Di2</li>
-          <li>Shimano Chain</li>
-        </ul>
+        {bikes.map((bike) => {
+          return (
+            <div key={bike.id}>
+              <h4>{bike.name}</h4>
+              <ul>
+                {bike.components.map((component, index) => {
+                  return (
+                    <div key={index}>
+                      {index === 0 && <h5>Components:</h5>}
+                      <li>{component.name}</li>
+                    </div>
+                  )
+                })}
+              </ul>
+            </div>
+          )
+        })}
       </section>
 
       <section>
@@ -48,10 +90,44 @@ export default function BikeAndComponentsPage() {
 
       <Switch>
         <Route path={`${path}/add-new-bike`}>
-          <AddNewBikeForm />
+          <AddForm
+            title="Add a new bike"
+            formFields={[
+              {
+                label: 'Bike name',
+                type: 'text',
+                name: 'name',
+                value: newBike.name,
+                setValue: (val) => setNewBike({ ...newBike, name: val }),
+              },
+              {
+                label: 'Type',
+                type: 'text',
+                name: 'type',
+                value: newBike.type,
+                setValue: (val) => setNewBike({ ...newBike, type: val }),
+              },
+              {
+                label: 'Brand',
+                type: 'text',
+                name: 'brand',
+                value: newBike.brand,
+                setValue: (val) => setNewBike({ ...newBike, brand: val }),
+              },
+              {
+                label: 'Purchase date',
+                type: 'date',
+                name: 'purchaseDate',
+                value: newBike.purchaseDate,
+                setValue: (val) =>
+                  setNewBike({ ...newBike, purchaseDate: val }),
+              },
+            ]}
+            submitHandler={addNewBike}
+          />
         </Route>
         <Route path={`${path}/add-new-component`}>
-          <AddNewComponentForm bikes={bikes} />
+          <AddForm title="Add a new bike" />
         </Route>
       </Switch>
     </main>
