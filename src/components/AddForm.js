@@ -1,4 +1,5 @@
 import React from 'react'
+import styled from 'styled-components/macro'
 
 export default function AddForm({ title, formFields, submitHandler }) {
   function onSubmit(event) {
@@ -7,7 +8,7 @@ export default function AddForm({ title, formFields, submitHandler }) {
   }
 
   return (
-    <form onSubmit={onSubmit}>
+    <FormWrapper onSubmit={onSubmit}>
       <h4>{title}</h4>
       {formFields.map((formField, index) => {
         return (
@@ -22,7 +23,18 @@ export default function AddForm({ title, formFields, submitHandler }) {
           </label>
         )
       })}
-      <button type="submit">Abfahrt</button>
-    </form>
+      <button type="submit">Add</button>
+    </FormWrapper>
   )
 }
+
+const FormWrapper = styled.form`
+  display: grid;
+  gap: 20px;
+  justify-content: center;
+
+  label {
+    display: flex;
+    flex-direction: column;
+  }
+`

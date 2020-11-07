@@ -11,7 +11,6 @@ describe('#createID', () => {
     const result2 = createID()
     expect(typeof result1).toBe('number')
     expect(typeof result2).toBe('number')
-    console.log(result1, result2)
     expect(result1).not.toBe(result2)
   })
 })

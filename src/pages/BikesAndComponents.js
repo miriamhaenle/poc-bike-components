@@ -10,15 +10,15 @@ export default function BikeAndComponentsPage() {
   const testState = [
     {
       id: 1,
-      name: 'Pinarello Dogma F8',
-      type: 'Road',
       brand: 'Pinarello',
+      type: 'Road',
+      model: 'Dogma F8',
       purchaseDate: '2018-11-01',
       components: [
         {
-          name: 'Campagnolo Super record EPS',
+          brand: 'Campagnolo',
           type: 'Groupset',
-          brand: 'campagnolo',
+          model: 'Super record EPS',
           purchaseDate: toDomString(new Date()),
           notificationDistance: 100,
         },
@@ -26,9 +26,9 @@ export default function BikeAndComponentsPage() {
     },
     {
       id: 2,
-      name: 'Canxon Speedmax',
+      brand: 'Canxon ',
       type: 'Road',
-      brand: 'Canyon',
+      model: 'Speedmax CL',
       purchaseDate: '2019-05-22',
       components: [],
     },
@@ -36,6 +36,7 @@ export default function BikeAndComponentsPage() {
 
   const [bikes, setBikes] = useState(testState)
   const [newBike, setNewBike] = useState(getNewBike())
+  const [newComponent, setNewComponent] = useState(getNewComponent())
 
   function addNewBike() {
     setBikes([...bikes, newBike])
@@ -46,14 +47,24 @@ export default function BikeAndComponentsPage() {
   function getNewBike() {
     return {
       id: createID(),
-      name: '',
-      type: '',
       brand: '',
+      type: '',
+      model: '',
       purchaseDate: toDomString(new Date()),
       components: [],
     }
   }
 
+  function getNewComponent() {
+    return {
+      id: createID(),
+      brand: '',
+      type: '',
+      model: '',
+      purchaseDate: toDomString(new Date()),
+      notificationDistance: '',
+    }
+  }
   return (
     <main>
       <h2>Bikes and Components</h2>
@@ -94,11 +105,11 @@ export default function BikeAndComponentsPage() {
             title="Add a new bike"
             formFields={[
               {
-                label: 'Bike name',
+                label: 'Brand',
                 type: 'text',
                 name: 'name',
-                value: newBike.name,
-                setValue: (val) => setNewBike({ ...newBike, name: val }),
+                value: newBike.brand,
+                setValue: (val) => setNewBike({ ...newBike, brand: val }),
               },
               {
                 label: 'Type',
@@ -108,11 +119,11 @@ export default function BikeAndComponentsPage() {
                 setValue: (val) => setNewBike({ ...newBike, type: val }),
               },
               {
-                label: 'Brand',
+                label: 'Model',
                 type: 'text',
-                name: 'brand',
-                value: newBike.brand,
-                setValue: (val) => setNewBike({ ...newBike, brand: val }),
+                name: 'model',
+                value: newBike.model,
+                setValue: (val) => setNewBike({ ...newBike, model: val }),
               },
               {
                 label: 'Purchase date',
@@ -127,7 +138,54 @@ export default function BikeAndComponentsPage() {
           />
         </Route>
         <Route path={`${path}/add-new-component`}>
-          <AddForm title="Add a new bike" />
+          <AddForm
+            title="Add a new component"
+            formFields={[
+              {
+                label: 'Brand',
+                type: 'text',
+                name: 'brand',
+                value: newComponent.brand,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, brand: val }),
+              },
+              {
+                label: 'Type',
+                type: 'text',
+                name: 'type',
+                value: newComponent.type,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, type: val }),
+              },
+              {
+                label: 'Model',
+                type: 'text',
+                name: 'model',
+                value: newComponent.model,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, model: val }),
+              },
+              {
+                label: 'Purchase date',
+                type: 'date',
+                name: 'purchaseDate',
+                value: newComponent.purchaseDate,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, purchaseDate: val }),
+              },
+              {
+                label: 'Notify me after km',
+                type: 'number',
+                name: 'notificationDistance',
+                value: newComponent.notificationDistance,
+                setValue: (val) =>
+                  setNewComponent({
+                    ...newComponent,
+                    notificationDistance: val,
+                  }),
+              },
+            ]}
+          />
         </Route>
       </Switch>
     </main>
