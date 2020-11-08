@@ -42,27 +42,30 @@ export default function BikeAndComponentsPage() {
     },
   ]
 
-  const [bikes, setBikes] = useState(testState)
+  const [bikes, setBikes] = useState(
+    testState.sort((a, b) => (a.brand > b.brand ? 1 : -1))
+  )
   const [newBike, setNewBike] = useState(getNewBike())
   const [newComponent, setNewComponent] = useState(getNewComponent())
 
   function addNewBike() {
-    setBikes([...bikes, newBike])
+    setBikes([...bikes, newBike].sort((a, b) => (a.brand > b.brand ? 1 : -1)))
     setNewBike(getNewBike())
-    console.log(bikes)
   }
 
   function addNewComponent() {
     const bikeToUpdate = bikes.find((bike) => newComponent.bikeId === bike.id)
 
     if (bikeToUpdate) {
-      setBikes([
-        ...bikes.filter((bike) => newComponent.bikeId !== bike.id),
-        {
-          ...bikeToUpdate,
-          components: [...bikeToUpdate?.components, newComponent],
-        },
-      ])
+      setBikes(
+        [
+          ...bikes.filter((bike) => newComponent.bikeId !== bike.id),
+          {
+            ...bikeToUpdate,
+            components: [...bikeToUpdate?.components, newComponent],
+          },
+        ].sort((a, b) => (a.brand > b.brand ? 1 : -1))
+      )
     }
     setNewComponent(getNewComponent())
   }
@@ -86,7 +89,7 @@ export default function BikeAndComponentsPage() {
       model: '',
       purchaseDate: toDomString(new Date()),
       notificationDistance: '',
-      bikeId: '0',
+      bikeId: 0,
     }
   }
   return (
