@@ -14,12 +14,32 @@ export default function AddForm({ title, formFields, submitHandler }) {
         return (
           <label key={index}>
             {formField.label}
-            <input
-              type={formField.type}
-              name={formField.name}
-              value={formField.value}
-              onChange={(event) => formField.setValue(event.target.value)}
-            />
+            {formField.type === 'select' ? (
+              <select
+                onChange={(event) => formField.setValue(event.target.value)}
+                value={formField.value}
+              >
+                {formField.options.map((bike, index) => {
+                  return (
+                    <>
+                      {index === 0 && (
+                        <option value={index} selected>
+                          Select a bike
+                        </option>
+                      )}
+                      <option value={bike.id}>{bike.brand}</option>
+                    </>
+                  )
+                })}
+              </select>
+            ) : (
+              <input
+                type={formField.type}
+                name={formField.name}
+                value={formField.value}
+                onChange={(event) => formField.setValue(event.target.value)}
+              />
+            )}
           </label>
         )
       })}

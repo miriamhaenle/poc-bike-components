@@ -26,11 +26,19 @@ export default function BikeAndComponentsPage() {
     },
     {
       id: 2,
-      brand: 'Canxon ',
+      brand: 'Canyon',
       type: 'Road',
-      model: 'Speedmax CL',
-      purchaseDate: '2019-05-22',
-      components: [],
+      model: 'Dogma F8',
+      purchaseDate: '2018-11-01',
+      components: [
+        {
+          brand: 'Campagnolo',
+          type: 'Groupset',
+          model: 'Super record EPS',
+          purchaseDate: toDomString(new Date()),
+          notificationDistance: 100,
+        },
+      ],
     },
   ]
 
@@ -42,6 +50,21 @@ export default function BikeAndComponentsPage() {
     setBikes([...bikes, newBike])
     setNewBike(getNewBike())
     console.log(bikes)
+  }
+
+  function addNewComponent() {
+    const bikeToUpdate = bikes.find((bike) => newComponent.bikeId === bike.id)
+
+    if (bikeToUpdate) {
+      setBikes([
+        ...bikes.filter((bike) => newComponent.bikeId !== bike.id),
+        {
+          ...bikeToUpdate,
+          components: [...bikeToUpdate?.components, newComponent],
+        },
+      ])
+    }
+    setNewComponent(getNewComponent())
   }
 
   function getNewBike() {
@@ -63,6 +86,7 @@ export default function BikeAndComponentsPage() {
       model: '',
       purchaseDate: toDomString(new Date()),
       notificationDistance: '',
+      bikeId: '0',
     }
   }
   return (
@@ -74,13 +98,13 @@ export default function BikeAndComponentsPage() {
         {bikes.map((bike) => {
           return (
             <div key={bike.id}>
-              <h4>{bike.name}</h4>
+              <h4>{bike.brand}</h4>
               <ul>
                 {bike.components.map((component, index) => {
                   return (
                     <div key={index}>
                       {index === 0 && <h5>Components:</h5>}
-                      <li>{component.name}</li>
+                      <li>{component.brand}</li>
                     </div>
                   )
                 })}
@@ -142,6 +166,15 @@ export default function BikeAndComponentsPage() {
             title="Add a new component"
             formFields={[
               {
+                label: 'Select your bike',
+                type: 'select',
+                name: 'bike',
+                options: bikes,
+                value: newComponent.bikeId,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, bikeId: Number(val) }),
+              },
+              {
                 label: 'Brand',
                 type: 'text',
                 name: 'brand',
@@ -185,6 +218,7 @@ export default function BikeAndComponentsPage() {
                   }),
               },
             ]}
+            submitHandler={addNewComponent}
           />
         </Route>
       </Switch>
