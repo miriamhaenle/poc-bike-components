@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
+import { NavLink, Switch, Route, useRouteMatch } from 'react-router-dom'
 import Button from '../components/Button'
 import BikeContainer from '../components/BikeContainer'
 import AddForm from '../components/AddForm'
@@ -49,11 +49,16 @@ export default function BikeAndComponentsPage() {
 
       <ButtonSection>
         <Button>
-          <LinkStyled to={`${path}/add-new-bike`}>Add new Bike</LinkStyled>
+          <LinkStyled to={`${path}/add-new-bike`} activeClassName="selected">
+            Add new Bike
+          </LinkStyled>
         </Button>
 
         <Button>
-          <LinkStyled to={`${path}/add-new-component`}>
+          <LinkStyled
+            to={`${path}/add-new-component`}
+            activeClassName="selected"
+          >
             Add new component
           </LinkStyled>
         </Button>
@@ -167,9 +172,13 @@ const ButtonSection = styled.section`
   justify-content: center;
 `
 
-const LinkStyled = styled(Link)`
+const LinkStyled = styled(NavLink)`
   color: ivory;
   text-decoration: none;
+
+  &.selected {
+    color: #b2ffff;
+  }
 `
 
 function getNewBike() {
