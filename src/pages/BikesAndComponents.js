@@ -70,28 +70,6 @@ export default function BikeAndComponentsPage() {
     setNewComponent(getNewComponent())
   }
 
-  function getNewBike() {
-    return {
-      id: createID(),
-      brand: '',
-      type: '',
-      model: '',
-      purchaseDate: toDomString(new Date()),
-      components: [],
-    }
-  }
-
-  function getNewComponent() {
-    return {
-      id: createID(),
-      brand: '',
-      type: '',
-      model: '',
-      purchaseDate: toDomString(new Date()),
-      notificationDistance: '',
-      bikeId: 0,
-    }
-  }
   return (
     <main>
       <h2>Bikes and Components</h2>
@@ -227,4 +205,27 @@ export default function BikeAndComponentsPage() {
       </Switch>
     </main>
   )
+}
+
+function getNewBike() {
+  return {
+    id: createID(),
+    brand: '',
+    type: '',
+    model: '',
+    purchaseDate: toDomString(new Date()),
+    components: [],
+  }
+}
+
+function getNewComponent() {
+  return {
+    id: createID(),
+    brand: '',
+    type: '',
+    model: '',
+    purchaseDate: toDomString(new Date()),
+    notificationDistance: '',
+    bikeId: 0,
+  }
 }
