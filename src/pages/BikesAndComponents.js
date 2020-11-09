@@ -1,46 +1,16 @@
 import { useState } from 'react'
 import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
+import Button from '../components/Button'
+import BikeContainer from '../components/BikeContainer'
 import AddForm from '../components/AddForm'
 import { toDomString } from '../services/dateService'
 import { createID } from '../services/idService'
+import styled from 'styled-components'
+
+import testState from '../fixtures/bikeTestState'
 
 export default function BikeAndComponentsPage() {
   let { path } = useRouteMatch()
-
-  const testState = [
-    {
-      id: 1,
-      brand: 'Pinarello',
-      type: 'Road',
-      model: 'Dogma F8',
-      purchaseDate: '2018-11-01',
-      components: [
-        {
-          brand: 'Campagnolo',
-          type: 'Groupset',
-          model: 'Super record EPS',
-          purchaseDate: toDomString(new Date()),
-          notificationDistance: 100,
-        },
-      ],
-    },
-    {
-      id: 2,
-      brand: 'Canyon',
-      type: 'Road',
-      model: 'Dogma F8',
-      purchaseDate: '2018-11-01',
-      components: [
-        {
-          brand: 'Campagnolo',
-          type: 'Groupset',
-          model: 'Super record EPS',
-          purchaseDate: toDomString(new Date()),
-          notificationDistance: 100,
-        },
-      ],
-    },
-  ]
 
   const [bikes, setBikes] = useState(
     testState.sort((a, b) => (a.brand > b.brand ? 1 : -1))
@@ -75,34 +45,19 @@ export default function BikeAndComponentsPage() {
       <h2>Bikes and Components</h2>
       <p>Overview of your bikes and components</p>
 
-      <section>
-        {bikes.map((bike) => {
-          return (
-            <div key={bike.id}>
-              <h4>{bike.brand}</h4>
-              <ul>
-                {bike.components.map((component, index) => {
-                  return (
-                    <div key={index}>
-                      {index === 0 && <h5>Components:</h5>}
-                      <li>{component.brand}</li>
-                    </div>
-                  )
-                })}
-              </ul>
-            </div>
-          )
-        })}
-      </section>
+      <BikeContainer bikes={bikes} />
 
-      <section>
-        <button>
-          <Link to={`${path}/add-new-bike`}>Add a new bike</Link>
-        </button>
-        <button>
-          <Link to={`${path}/add-new-component`}>Add a new component</Link>
-        </button>
-      </section>
+      <ButtonSection>
+        <Button>
+          <LinkStyled to={`${path}/add-new-bike`}>Add new Bike</LinkStyled>
+        </Button>
+
+        <Button>
+          <LinkStyled to={`${path}/add-new-component`}>
+            Add new component
+          </LinkStyled>
+        </Button>
+      </ButtonSection>
 
       <Switch>
         <Route path={`${path}/add-new-bike`}>
@@ -206,6 +161,16 @@ export default function BikeAndComponentsPage() {
     </main>
   )
 }
+
+const ButtonSection = styled.section`
+  display: flex;
+  justify-content: center;
+`
+
+const LinkStyled = styled(Link)`
+  color: ivory;
+  text-decoration: none;
+`
 
 function getNewBike() {
   return {
