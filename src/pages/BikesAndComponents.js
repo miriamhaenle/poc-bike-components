@@ -45,8 +45,6 @@ export default function BikeAndComponentsPage() {
       <h2>Bikes and Components</h2>
       <p>Overview of your bikes and components</p>
 
-      <BikeContainer bikes={bikes} />
-
       <ButtonSection>
         <Button>
           <LinkStyled to={`${path}/add-new-bike`} activeClassName="selected">
@@ -63,6 +61,8 @@ export default function BikeAndComponentsPage() {
           </LinkStyled>
         </Button>
       </ButtonSection>
+
+      <BikeContainer bikes={bikes} />
 
       <Switch>
         <Route path={`${path}/add-new-bike`}>
@@ -173,11 +173,11 @@ const ButtonSection = styled.section`
 `
 
 const LinkStyled = styled(NavLink)`
-  color: ivory;
+  color: var(--white);
   text-decoration: none;
 
   &.selected {
-    color: #b2ffff;
+    color: var(--highlight);
   }
 `
 

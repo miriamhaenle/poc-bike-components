@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import Button from './Button'
 
 export default function AddForm({ title, formFields, submitHandler }) {
   function onSubmit(event) {
@@ -43,7 +44,8 @@ export default function AddForm({ title, formFields, submitHandler }) {
           </label>
         )
       })}
-      <button type="submit">Add</button>
+      <Button>Add</Button>
+      <Button background="var(--secondary-light)">Cancel</Button>
     </FormWrapper>
   )
 }
@@ -52,9 +54,15 @@ const FormWrapper = styled.form`
   display: grid;
   gap: 20px;
   justify-content: center;
+  padding: 1rem;
 
   label {
     display: flex;
     flex-direction: column;
+  }
+  input {
+    font-family: sans-serif;
+    margin-top: 0.4rem;
+    padding: 3px;
   }
 `

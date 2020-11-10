@@ -18,7 +18,6 @@ export default function Header() {
 const HeaderWrapper = styled.header`
   display: flex;
   flex-direction: column;
-  border-bottom: 3px dotted #b2ffff;
 
   nav {
     display: flex;

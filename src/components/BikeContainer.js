@@ -27,7 +27,7 @@ const BikeContainer = ({ bikes }) => {
 export default BikeContainer
 
 const Container = styled.div`
-  background: #b2ffff;
+  background: var(--primary);
   border-radius: 3px;
   margin: 1rem 0;
   padding: 1rem 2rem;
