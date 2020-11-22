@@ -27,6 +27,6 @@ export default App
 
 const AppWrapper = styled.div`
   display: grid;
-  grid-template-rows: 75px auto 75px;
+  grid-template-rows: 100px auto 75px;
   justify-content: center;
 `

@@ -41,7 +41,7 @@ export default function BikeAndComponentsPage() {
   }
 
   return (
-    <main>
+    <div>
       <h2>Bikes and Components</h2>
       <p>Overview of your bikes and components</p>
 
@@ -163,7 +163,7 @@ export default function BikeAndComponentsPage() {
           />
         </Route>
       </Switch>
-    </main>
+    </div>
   )
 }
 
