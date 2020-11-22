@@ -1,15 +1,43 @@
 import { useState } from 'react'
-import { Link, Switch, Route, useRouteMatch } from 'react-router-dom'
-import AddNewBikeForm from '../components/AddNewBikeForm'
-import AddNewComponentForm from '../components/AddNewComponentForm'
+import { NavLink, Switch, Route, useRouteMatch } from 'react-router-dom'
+import Button from '../components/Button'
+import BikeContainer from '../components/BikeContainer'
+import AddForm from '../components/AddForm'
+import { toDomString } from '../services/dateService'
+import { createID } from '../services/idService'
+import styled from 'styled-components'
+
+import testState from '../fixtures/bikeTestState'
 
 export default function BikeAndComponentsPage() {
   let { path } = useRouteMatch()
 
-  const [bikes, setBikes] = useState(['Pinarello', 'Canyon'])
+  const [bikes, setBikes] = useState(
+    testState.sort((a, b) => (a.brand > b.brand ? 1 : -1))
+  )
+  const [newBike, setNewBike] = useState(getNewBike())
+  const [newComponent, setNewComponent] = useState(getNewComponent())
 
-  function addNewBike(newBike) {
-    setBikes([...bikes, newBike])
+  function addNewBike() {
+    setBikes([...bikes, newBike].sort((a, b) => (a.brand > b.brand ? 1 : -1)))
+    setNewBike(getNewBike())
+  }
+
+  function addNewComponent() {
+    const bikeToUpdate = bikes.find((bike) => newComponent.bikeId === bike.id)
+
+    if (bikeToUpdate) {
+      setBikes(
+        [
+          ...bikes.filter((bike) => newComponent.bikeId !== bike.id),
+          {
+            ...bikeToUpdate,
+            components: [...bikeToUpdate?.components, newComponent],
+          },
+        ].sort((a, b) => (a.brand > b.brand ? 1 : -1))
+      )
+    }
+    setNewComponent(getNewComponent())
   }
 
   return (
@@ -17,43 +45,161 @@ export default function BikeAndComponentsPage() {
       <h2>Bikes and Components</h2>
       <p>Overview of your bikes and components</p>
 
-      <section>
-        <div>
-          <h4>Pinarello F8</h4>
-          <ul>
-            Components:
-            <li>Campagnolo Super record EPS</li>
-            <li>Campagnolo Super 12 Speed Chain</li>
-            <li>Laufrad Fulcrum Racing 600 (front)</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Canyon Speedmax CF SL</h4>
-        </div>
-        <ul>
-          Components:
-          <li>Shimano Di2</li>
-          <li>Shimano Chain</li>
-        </ul>
-      </section>
+      <ButtonSection>
+        <Button>
+          <LinkStyled to={`${path}/add-new-bike`} activeClassName="selected">
+            Add new Bike
+          </LinkStyled>
+        </Button>
 
-      <section>
-        <button>
-          <Link to={`${path}/add-new-bike`}>Add a new bike</Link>
-        </button>
-        <button>
-          <Link to={`${path}/add-new-component`}>Add a new component</Link>
-        </button>
-      </section>
+        <Button>
+          <LinkStyled
+            to={`${path}/add-new-component`}
+            activeClassName="selected"
+          >
+            Add new component
+          </LinkStyled>
+        </Button>
+      </ButtonSection>
+
+      <BikeContainer bikes={bikes} />
 
       <Switch>
         <Route path={`${path}/add-new-bike`}>
-          <AddNewBikeForm />
+          <AddForm
+            title="Add a new bike"
+            formFields={[
+              {
+                label: 'Brand',
+                type: 'text',
+                name: 'name',
+                value: newBike.brand,
+                setValue: (val) => setNewBike({ ...newBike, brand: val }),
+              },
+              {
+                label: 'Type',
+                type: 'text',
+                name: 'type',
+                value: newBike.type,
+                setValue: (val) => setNewBike({ ...newBike, type: val }),
+              },
+              {
+                label: 'Model',
+                type: 'text',
+                name: 'model',
+                value: newBike.model,
+                setValue: (val) => setNewBike({ ...newBike, model: val }),
+              },
+              {
+                label: 'Purchase date',
+                type: 'date',
+                name: 'purchaseDate',
+                value: newBike.purchaseDate,
+                setValue: (val) =>
+                  setNewBike({ ...newBike, purchaseDate: val }),
+              },
+            ]}
+            submitHandler={addNewBike}
+          />
         </Route>
         <Route path={`${path}/add-new-component`}>
-          <AddNewComponentForm bikes={bikes} />
+          <AddForm
+            title="Add a new component"
+            formFields={[
+              {
+                label: 'Select your bike',
+                type: 'select',
+                name: 'bike',
+                options: bikes,
+                value: newComponent.bikeId,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, bikeId: Number(val) }),
+              },
+              {
+                label: 'Brand',
+                type: 'text',
+                name: 'brand',
+                value: newComponent.brand,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, brand: val }),
+              },
+              {
+                label: 'Type',
+                type: 'text',
+                name: 'type',
+                value: newComponent.type,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, type: val }),
+              },
+              {
+                label: 'Model',
+                type: 'text',
+                name: 'model',
+                value: newComponent.model,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, model: val }),
+              },
+              {
+                label: 'Purchase date',
+                type: 'date',
+                name: 'purchaseDate',
+                value: newComponent.purchaseDate,
+                setValue: (val) =>
+                  setNewComponent({ ...newComponent, purchaseDate: val }),
+              },
+              {
+                label: 'Notify me after km',
+                type: 'number',
+                name: 'notificationDistance',
+                value: newComponent.notificationDistance,
+                setValue: (val) =>
+                  setNewComponent({
+                    ...newComponent,
+                    notificationDistance: val,
+                  }),
+              },
+            ]}
+            submitHandler={addNewComponent}
+          />
         </Route>
       </Switch>
     </main>
   )
+}
+
+const ButtonSection = styled.section`
+  display: flex;
+  justify-content: center;
+`
+
+const LinkStyled = styled(NavLink)`
+  color: var(--white);
+  text-decoration: none;
+
+  &.selected {
+    color: var(--highlight);
+  }
+`
+
+function getNewBike() {
+  return {
+    id: createID(),
+    brand: '',
+    type: '',
+    model: '',
+    purchaseDate: toDomString(new Date()),
+    components: [],
+  }
+}
+
+function getNewComponent() {
+  return {
+    id: createID(),
+    brand: '',
+    type: '',
+    model: '',
+    purchaseDate: toDomString(new Date()),
+    notificationDistance: '',
+    bikeId: 0,
+  }
 }

@@ -1,8 +1,9 @@
+import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom'
 
 export default function Header() {
   return (
-    <header>
+    <HeaderWrapper>
       <h1>BIKECOMPONENTS</h1>
       <nav>
         <NavLink exact to="/">
@@ -10,6 +11,16 @@ export default function Header() {
         </NavLink>
         <NavLink to="/bikes-and-components">Bikes & Components</NavLink>
       </nav>
-    </header>
+    </HeaderWrapper>
   )
 }
+
+const HeaderWrapper = styled.header`
+  display: flex;
+  flex-direction: column;
+
+  nav {
+    display: flex;
+    justify-content: space-around;
+  }
+`
