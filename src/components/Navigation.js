@@ -1,40 +1,47 @@
 import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom'
-import component from '../assets/component.svg'
-import wheel from '../assets/wheel.svg'
 
-export default function Navigation() {
+export default function Navigation({ active }) {
   return (
-    <Nav>
-      <NavIcon exact to="/" activeClassName="selected">
-        <img src={wheel} alt="home" />
+    <NavWrapper>
+      <span>X</span>
+      <NavLink exact to="/" activeClassName="selected">
         Home
-      </NavIcon>
-      <NavIcon to="/bikes-and-components" activeClassName="selected">
-        <img src={component} alt="bikeIcon"></img>Bikes & Components
-      </NavIcon>
-    </Nav>
+      </NavLink>
+      <NavLink to="/bikes-and-components" activeClassName="selected">
+        Gear
+      </NavLink>
+    </NavWrapper>
   )
 }
 
-const Nav = styled.nav`
-  display: flex;
-  justify-content: space-around;
-`
-
-const NavIcon = styled(NavLink)`
-  color: var(--black);
+const NavWrapper = styled.div`
+  background: var(--black);
+  color: var(--white);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 2rem;
+  height: 100vh;
+  padding-top: 2rem;
+  position: fixed;
+  right: 0;
+  text-align: center;
+  top: 0;
+  transform: 2s ease;
+  width: 100vw;
 
-  &.selected {
-    color: var(--highlight);
-    img {
-      fill: var(--highlight);
-    }
+  span {
+    display: block;
+    font-size: 3rem;
   }
-  img {
-    width: 2rem;
+
+  a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 3rem;
+  }
+
+  a.selected {
+    color: var(--highlight);
   }
 `
