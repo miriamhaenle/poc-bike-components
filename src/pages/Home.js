@@ -1,25 +1,38 @@
 import styled from 'styled-components/macro'
 import bike from '../assets/bike.svg'
+import Header from '../components/Header'
 
 export default function HomePage() {
   return (
-    <HomeStyled>
-      <h2> This is home</h2>
-      <img src={bike} alt="bike"></img>
-      <p>
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus ad
-        dignissimos alias asperiores nesciunt omnis, exercitationem laborum non
-        laudantium fuga?
-      </p>
-    </HomeStyled>
+    <>
+      <Header />
+      <Home>
+        <h2> This is home</h2>
+        <img src={bike} alt="bike" />
+        <p>
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus ad
+          dignissimos alias asperiores nesciunt omnis, exercitationem laborum
+          non laudantium fuga?
+        </p>
+      </Home>
+    </>
   )
 }
 
-const HomeStyled = styled.div`
+const Home = styled.main`
   display: grid;
-  justify-items: center;
+  justify-content: center;
+
+  h2 {
+    text-align: center;
+  }
 
   img {
-    width: 80%;
+    margin: 0 auto;
+    width: 50%;
+  }
+
+  p {
+    padding: 0 4rem;
   }
 `
