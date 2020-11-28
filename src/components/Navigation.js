@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro'
 import { NavLink } from 'react-router-dom'
 
-export default function Navigation({ active }) {
+export default function Navigation() {
   return (
     <NavWrapper>
       <span>X</span>

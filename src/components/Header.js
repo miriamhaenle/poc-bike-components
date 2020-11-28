@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components/macro'
 import Navigation from './Navigation'
+import BurgerMenu from './BurgerMenu'
 
 export default function Header() {
   const [clicked, setClicked] = useState(false)
@@ -9,15 +10,7 @@ export default function Header() {
     <HeaderWrapper>
       <h1>BIKECOMPONENTS</h1>
       <nav onClick={() => setClicked(!clicked)}>
-        {clicked ? (
-          <Navigation active={clicked} />
-        ) : (
-          <BurgerMenu>
-            <span></span>
-            <span></span>
-            <span></span>
-          </BurgerMenu>
-        )}
+        {clicked ? <Navigation /> : <BurgerMenu clicked={clicked} />}
       </nav>
     </HeaderWrapper>
   )
@@ -26,32 +19,14 @@ export default function Header() {
 const HeaderWrapper = styled.header`
   background: var(--black);
   color: var(--white);
+  margin-bottom: 20px;
   padding: 2rem;
   text-align: center;
   text-transform: uppercase;
-`
+  transition: 0.5s;
+  transition-delay: 0.5s;
 
-const BurgerMenu = styled.div`
-  height: 35px;
-  position: fixed;
-  right: 35px;
-  top: 37px;
-  width: 25px;
-
-  span {
-    position: absolute;
-    width: 100%;
-    background: var(--white);
-    height: 2px;
-    display: block;
-    top: 10px;
-  }
-
-  span:first-child {
-    top: 5px;
-  }
-
-  span:last-child {
-    top: 15px;
+  h1 {
+    font-weight: 100;
   }
 `
