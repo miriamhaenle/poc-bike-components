@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 
 const BikeContainer = ({ bikes }) => {
   return (
@@ -22,6 +23,10 @@ const BikeContainer = ({ bikes }) => {
       })}
     </section>
   )
+}
+
+BikeContainer.propTypes = {
+  bikes: PropTypes.array,
 }
 
 export default BikeContainer

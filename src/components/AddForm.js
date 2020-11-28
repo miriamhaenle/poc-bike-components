@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 import Button from './Button'
 
 export default function AddForm({ title, formFields, submitHandler }) {
@@ -48,6 +49,12 @@ export default function AddForm({ title, formFields, submitHandler }) {
       <Button background="var(--secondary-light)">Cancel</Button>
     </FormWrapper>
   )
+}
+
+AddForm.propTypes = {
+  title: PropTypes.string,
+  formFields: PropTypes.array,
+  submitHandler: PropTypes.func,
 }
 
 const FormWrapper = styled.form`

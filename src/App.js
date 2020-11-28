@@ -1,7 +1,6 @@
-import styled from 'styled-components/macro'
+import { Route, Switch } from 'react-router-dom'
 import BikeAndComponentsPage from './pages/BikesAndComponents'
 import Home from './pages/Home'
-import { Route, Switch } from 'react-router-dom'
 
 function App() {
   return (

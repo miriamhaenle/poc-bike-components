@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 
 export default function BurgerMenu({ clicked }) {
   return (
@@ -8,6 +9,10 @@ export default function BurgerMenu({ clicked }) {
       <span></span>
     </Menu>
   )
+}
+
+BurgerMenu.propTypes = {
+  clicked: PropTypes.bool,
 }
 
 const Menu = styled.div`
