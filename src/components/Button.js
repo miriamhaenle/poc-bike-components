@@ -11,7 +11,6 @@ const Button = ({ children, background, backgroundHover }) => {
 export default Button
 
 Button.propTypes = {
-  children: PropTypes.object,
   background: PropTypes.string,
   backgroundHover: PropTypes.string,
 }

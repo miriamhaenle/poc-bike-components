@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { NavLink, Switch, Route, useRouteMatch } from 'react-router-dom'
 import Button from '../components/Button'
 import BikeContainer from '../components/BikeContainer'
-import AddForm from '../components/AddForm'
+import Form from '../components/Form'
 import { toDomString } from '../services/dateService'
 import { createID } from '../services/idService'
 import styled from 'styled-components'
@@ -69,10 +69,12 @@ export default function BikeAndComponentsPage() {
 
         <Switch>
           <Route path={`${path}/add-new-bike`}>
-            <AddForm
+            <Form
+              key="editor1"
               title="Add a new bike"
               formFields={[
                 {
+                  id: 1,
                   label: 'Brand',
                   type: 'text',
                   name: 'name',
@@ -80,6 +82,7 @@ export default function BikeAndComponentsPage() {
                   setValue: (val) => setNewBike({ ...newBike, brand: val }),
                 },
                 {
+                  id: 2,
                   label: 'Type',
                   type: 'text',
                   name: 'type',
@@ -87,6 +90,7 @@ export default function BikeAndComponentsPage() {
                   setValue: (val) => setNewBike({ ...newBike, type: val }),
                 },
                 {
+                  id: 3,
                   label: 'Model',
                   type: 'text',
                   name: 'model',
@@ -94,6 +98,7 @@ export default function BikeAndComponentsPage() {
                   setValue: (val) => setNewBike({ ...newBike, model: val }),
                 },
                 {
+                  id: 4,
                   label: 'Purchase date',
                   type: 'date',
                   name: 'purchaseDate',
@@ -106,7 +111,7 @@ export default function BikeAndComponentsPage() {
             />
           </Route>
           <Route path={`${path}/add-new-component`}>
-            <AddForm
+            <Form
               title="Add a new component"
               formFields={[
                 {
