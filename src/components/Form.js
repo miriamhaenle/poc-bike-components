@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 import Button from './Button'
 
-export default function AddForm({ title, formFields, submitHandler }) {
+export default function Form({ title, formFields, submitHandler }) {
   function onSubmit(event) {
     event.preventDefault()
     submitHandler()
@@ -11,9 +12,9 @@ export default function AddForm({ title, formFields, submitHandler }) {
   return (
     <FormWrapper onSubmit={onSubmit}>
       <h4>{title}</h4>
-      {formFields.map((formField, index) => {
+      {formFields.map((formField) => {
         return (
-          <label key={index}>
+          <label key={formField.id}>
             {formField.label}
             {formField.type === 'select' ? (
               <select
@@ -22,14 +23,14 @@ export default function AddForm({ title, formFields, submitHandler }) {
               >
                 {formField.options.map((bike, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index === 0 ? '0' : formField.id}>
                       {index === 0 && (
-                        <option value={index} selected>
+                        <option value={index} defaultValue={index}>
                           Select a bike
                         </option>
                       )}
                       <option value={bike.id}>{bike.brand}</option>
-                    </>
+                    </React.Fragment>
                   )
                 })}
               </select>
@@ -48,6 +49,12 @@ export default function AddForm({ title, formFields, submitHandler }) {
       <Button background="var(--secondary-light)">Cancel</Button>
     </FormWrapper>
   )
+}
+
+Form.propTypes = {
+  title: PropTypes.string,
+  formFields: PropTypes.array,
+  submitHandler: PropTypes.func,
 }
 
 const FormWrapper = styled.form`

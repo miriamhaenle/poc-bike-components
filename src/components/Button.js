@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro'
+import PropTypes from 'prop-types'
 
 const Button = ({ children, background, backgroundHover }) => {
   return (
@@ -8,6 +9,11 @@ const Button = ({ children, background, backgroundHover }) => {
   )
 }
 export default Button
+
+Button.propTypes = {
+  background: PropTypes.string,
+  backgroundHover: PropTypes.string,
+}
 
 const ButtonStyled = styled.button`
   background: ${(props) => props.background || 'var(--black)'};

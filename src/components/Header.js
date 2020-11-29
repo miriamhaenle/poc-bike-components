@@ -1,26 +1,32 @@
+import { useState } from 'react'
 import styled from 'styled-components/macro'
-import { NavLink } from 'react-router-dom'
+import Navigation from './Navigation'
+import BurgerMenu from './BurgerMenu'
 
 export default function Header() {
+  const [clicked, setClicked] = useState(false)
+
   return (
     <HeaderWrapper>
       <h1>BIKECOMPONENTS</h1>
-      <nav>
-        <NavLink exact to="/">
-          Home
-        </NavLink>
-        <NavLink to="/bikes-and-components">Bikes & Components</NavLink>
+      <nav onClick={() => setClicked(!clicked)}>
+        {clicked ? <Navigation /> : <BurgerMenu clicked={clicked} />}
       </nav>
     </HeaderWrapper>
   )
 }
 
 const HeaderWrapper = styled.header`
-  display: flex;
-  flex-direction: column;
+  background: var(--black);
+  color: var(--white);
+  margin-bottom: 20px;
+  padding: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  transition-delay: 0.5s;
 
-  nav {
-    display: flex;
-    justify-content: space-around;
+  h1 {
+    font-weight: 100;
   }
 `
