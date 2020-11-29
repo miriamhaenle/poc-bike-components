@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import { NavLink, Switch, Route, useRouteMatch } from 'react-router-dom'
-import Button from '../components/Button'
-import BikeContainer from '../components/BikeContainer'
-import Form from '../components/Form'
-import { toDomString } from '../services/dateService'
-import { createID } from '../services/idService'
+import { NavLink, Route, Switch, useRouteMatch } from 'react-router-dom'
 import styled from 'styled-components'
+import BikeContainer from '../components/BikeContainer'
+import Button from '../components/Button'
+import Form from '../components/Form'
 import Header from '../components/Header'
-
+import { NewBike, NewComponent } from '../services/bikeService'
 import testState from '../fixtures/bikeTestState'
 
 export default function BikeAndComponentsPage() {
@@ -16,12 +14,12 @@ export default function BikeAndComponentsPage() {
   const [bikes, setBikes] = useState(
     testState.sort((a, b) => (a.brand > b.brand ? 1 : -1))
   )
-  const [newBike, setNewBike] = useState(getNewBike())
-  const [newComponent, setNewComponent] = useState(getNewComponent())
+  const [newBike, setNewBike] = useState(NewBike())
+  const [newComponent, setNewComponent] = useState(NewComponent())
 
   function addNewBike() {
     setBikes([...bikes, newBike].sort((a, b) => (a.brand > b.brand ? 1 : -1)))
-    setNewBike(getNewBike())
+    setNewBike(NewBike())
   }
 
   function addNewComponent() {
@@ -38,7 +36,7 @@ export default function BikeAndComponentsPage() {
         ].sort((a, b) => (a.brand > b.brand ? 1 : -1))
       )
     }
-    setNewComponent(getNewComponent())
+    setNewComponent(NewComponent())
   }
 
   return (
@@ -115,6 +113,7 @@ export default function BikeAndComponentsPage() {
               title="Add a new component"
               formFields={[
                 {
+                  id: 1,
                   label: 'Select your bike',
                   type: 'select',
                   name: 'bike',
@@ -124,6 +123,7 @@ export default function BikeAndComponentsPage() {
                     setNewComponent({ ...newComponent, bikeId: Number(val) }),
                 },
                 {
+                  id: 2,
                   label: 'Brand',
                   type: 'text',
                   name: 'brand',
@@ -132,6 +132,7 @@ export default function BikeAndComponentsPage() {
                     setNewComponent({ ...newComponent, brand: val }),
                 },
                 {
+                  id: 3,
                   label: 'Type',
                   type: 'text',
                   name: 'type',
@@ -140,6 +141,7 @@ export default function BikeAndComponentsPage() {
                     setNewComponent({ ...newComponent, type: val }),
                 },
                 {
+                  id: 4,
                   label: 'Model',
                   type: 'text',
                   name: 'model',
@@ -148,6 +150,7 @@ export default function BikeAndComponentsPage() {
                     setNewComponent({ ...newComponent, model: val }),
                 },
                 {
+                  id: 5,
                   label: 'Purchase date',
                   type: 'date',
                   name: 'purchaseDate',
@@ -156,6 +159,7 @@ export default function BikeAndComponentsPage() {
                     setNewComponent({ ...newComponent, purchaseDate: val }),
                 },
                 {
+                  id: 6,
                   label: 'Notify me after km',
                   type: 'number',
                   name: 'notificationDistance',
@@ -194,26 +198,3 @@ const LinkStyled = styled(NavLink)`
     color: var(--highlight);
   }
 `
-
-function getNewBike() {
-  return {
-    id: createID(),
-    brand: '',
-    type: '',
-    model: '',
-    purchaseDate: toDomString(new Date()),
-    components: [],
-  }
-}
-
-function getNewComponent() {
-  return {
-    id: createID(),
-    brand: '',
-    type: '',
-    model: '',
-    purchaseDate: toDomString(new Date()),
-    notificationDistance: '',
-    bikeId: 0,
-  }
-}

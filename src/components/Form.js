@@ -23,7 +23,7 @@ export default function Form({ title, formFields, submitHandler }) {
               >
                 {formField.options.map((bike, index) => {
                   return (
-                    <React.Fragment key={formField.id}>
+                    <React.Fragment key={index === 0 ? '0' : formField.id}>
                       {index === 0 && (
                         <option value={index} defaultValue={index}>
                           Select a bike
